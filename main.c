@@ -1,10 +1,6 @@
 #include <stdio.h>
 #include <string.h>
-
-int execute_program(char *program)
-{
-    return -1;    
-}
+#include "program.h"
 
 int main(int argc, char *argv[])
 {
