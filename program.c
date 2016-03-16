@@ -22,6 +22,7 @@ int string_to_key(char *s)
 
 int execute_program(char *s)
 {
+    printf("execute_program\r\n");
     switch(string_to_key(s))
     {
     case outputPID:
