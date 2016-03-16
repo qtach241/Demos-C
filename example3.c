@@ -82,7 +82,7 @@ int do_simplechain(int argc, char *argv[])
         return 1;
     }
 
-    n = atoi(s);
+    n = atoi(argv[2]);
     for (i = 1; i < n; i++)
         if ((childpid = fork()))
             break;

@@ -9,7 +9,7 @@ int main(int argc, char *argv[])
     if( argc > 1 )
     {
         printf("Arguments supplied: ");
-        for (int i = 1; i <= argc; i++)
+        for (i = 1; i <= argc; i++)
             printf("'%s' \r\n", argv[i]);
 
         if (execute_program(argc, argv) == 0)
