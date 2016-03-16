@@ -10,6 +10,7 @@ static key_t key_lut[] =
     { twoprocs,      "twoprocs",      "Test PID after fork()" },
     { badprocessID,  "badprocessID",  "PID mismatch gotcha" },
     { simplechain,   "simplechain",   "Create chain of n processes" },
+    { simplefan,     "simplefan",     "Create fan of n processes" },
     { LISTKEYS,      "list",          "List all valid keys" }
 };
 
@@ -44,6 +45,7 @@ int execute_program(int argc, char **argv)
     case twoprocs:     return do_twoprocs();
     case badprocessID: return do_badprocessID();
     case simplechain:  return do_simplechain(argc, argv);
+    case simplefan:    return do_simplefan(argc, argv);
 
     case LISTKEYS:     return list_keys();
 

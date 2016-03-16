@@ -91,3 +91,24 @@ int do_simplechain(int argc, char *argv[])
                     i, (long)getpid(), (long)getppid(), (long)childpid);
     return 0;
 }
+
+int do_simplefan(int argc, char *argv[])
+{
+    pid_t childpid = 0;
+    int i, n;
+
+    if (argc != 3)
+    {
+        fprintf(stderr, "Usage: %s processes\r\n", argv[0]);
+        return 1;
+    }
+
+    n = atoi(argv[2]);
+    for (i = 1; i < n; i++)
+        if ((childpid = fork()) <= 0)
+            break;
+
+    fprintf(stderr, "i:%d PID:%ld Parent PID:%ld Child PID:%ld\r\n",
+                    i, (long)getpid(), (long)getppid(), (long)childpid);
+    return 0;
+}
