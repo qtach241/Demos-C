@@ -9,6 +9,7 @@ static key_t key_lut[] =
     { simplefork, "simplefork", "Demonstrate fork() function" },
     { twoprocs, "twoprocs", "Test PID after fork()" },
     { badprocessID, "badprocessID", "PID mismatch gotcha" },
+    { simplechain, "simplechain", "Create chain of n processes" },
     { LISTKEYS, "list", "List all valid keys" }
 };
 
@@ -42,6 +43,8 @@ int execute_program(char *s)
     case simplefork:   return do_simplefork();
     case twoprocs:     return do_twoprocs();
     case badprocessID: return do_badprocessID();
+    case simplechain:  return do_simplechain();
+
     case LISTKEYS:     return list_keys();
 
     case BADKEY:

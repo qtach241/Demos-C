@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <unistd.h>
 #include <sys/types.h>
 
@@ -67,5 +68,20 @@ int do_badprocessID(void)
         printf("I am child %ld, PID = %ld\r\n", (long)getpid(), (long)mypid);
     else
         printf("I am parent %ld, PID = %ld\r\n", (long)getpid(), (long)mypid);
+    return 0;
+}
+
+int do_simplechain(char **argv)
+{
+    pid_t childpid = 0;
+    int i, n;
+
+    n = atoi(argv[1]);
+    for (i = 1; i < n; i++)
+        if (childpid = fork())
+            break;
+
+    fprintf(stderr, "i:%d PID:%ld Parent PID:%ld Child PID:%ld\r\n",
+                    i, (long)getpid(), (long)getppid(), (long)childpid);
     return 0;
 }

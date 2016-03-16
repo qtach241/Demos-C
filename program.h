@@ -8,6 +8,7 @@ enum
     simplefork,
     twoprocs,
     badprocessID,
+    simplechain,
     LISTKEYS,
     NUMKEYS
 };
