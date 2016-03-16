@@ -7,6 +7,7 @@ enum
     outputIDs,
     simplefork,
     twoprocs,
+    badprocessID,
     LISTKEYS,
     NUMKEYS
 };
