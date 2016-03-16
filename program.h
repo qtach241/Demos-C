@@ -4,14 +4,17 @@ enum
 {
     BADKEY = -1,
     outputPID = 0,
+    outputIDs,
     simplefork,
+    LISTKEYS,
     NUMKEYS
 };
 
 typedef struct key_s
 {
-    char *key_string;
     int key_value;
+    char *key_string;
+    char *key_description;
 } key_t;
 
 extern int string_to_key(char *s);

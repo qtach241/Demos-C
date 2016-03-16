@@ -6,23 +6,23 @@ int main(int argc, char *argv[])
 {
     if( argc == 2 )
     {
-        printf("The argument supplied is %s\n", argv[1]);
+        printf("Argument supplied: '%s'\r\n", argv[1]);
         if (execute_program(argv[1]) == 0)
         {
-            printf("Program returned success!\n");
+            printf("Program returned success!\r\n");
         }
         else
         {
-            printf("Program returned failure\n");
+            printf("Program returned failure\r\n");
         }
     }
     else if( argc > 2 )
     {
-        printf("Too many arguments supplied.\n");
+        printf("Too many arguments\r\n");
     }
     else
     {
-        printf("One argument expected.\n");
+        printf("One argument expected\r\n");
     }
     return 0;
 }
