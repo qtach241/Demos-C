@@ -31,4 +31,5 @@ int execute_program(char *s)
     case BADKEY:
         return BADKEY;
     }
+	return -1;
 }
