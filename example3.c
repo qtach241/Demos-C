@@ -76,7 +76,7 @@ int do_simplechain(int argc, char *argv[])
     pid_t childpid = 0;
     int i, n;
 
-    if (argc != 3)
+    if (argc < 3)
     {
         fprintf(stderr, "Usage: %s processes\r\n", argv[0]);
         return 1;
@@ -97,7 +97,7 @@ int do_simplefan(int argc, char *argv[])
     pid_t childpid = 0;
     int i, n;
 
-    if (argc != 3)
+    if (argc < 3)
     {
         fprintf(stderr, "Usage: %s processes\r\n", argv[0]);
         return 1;
