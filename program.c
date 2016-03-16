@@ -10,6 +10,7 @@ static key_t key_lut[] =
 
 int string_to_key(char *s)
 {
+    printf("string_to_key start\r\n");
     int i;
     for (i = 0; i < NUMKEYS; i++)
     {
@@ -17,6 +18,7 @@ int string_to_key(char *s)
         if (strcmp(key->key_string, s) == 0)
             return key->key_value;
     }
+    printf("string_to_key exit\r\n");
     return BADKEY;
 }
 
