@@ -43,7 +43,7 @@ int execute_program(char *s)
     case simplefork:   return do_simplefork();
     case twoprocs:     return do_twoprocs();
     case badprocessID: return do_badprocessID();
-    case simplechain:  return do_simplechain();
+    case simplechain:  return do_simplechain(s);
 
     case LISTKEYS:     return list_keys();
 

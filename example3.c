@@ -71,7 +71,7 @@ int do_badprocessID(void)
     return 0;
 }
 
-int do_simplechain(char **argv)
+int do_simplechain(char *argv)
 {
     pid_t childpid = 0;
     int i, n;
