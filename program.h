@@ -9,6 +9,7 @@ enum
     twoprocs,
     badprocessID,
     simplechain,
+    simplefan,
     LISTKEYS,
     NUMKEYS
 };
