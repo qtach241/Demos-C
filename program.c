@@ -4,13 +4,13 @@
 
 static key_t key_lut[] = 
 {
-    { outputPID, "outputPID", "Output Process ID and Parent Process ID" },
-    { outputIDs, "outputIDs", "Output User ID and Group ID" },
-    { simplefork, "simplefork", "Demonstrate fork() function" },
-    { twoprocs, "twoprocs", "Test PID after fork()" },
-    { badprocessID, "badprocessID", "PID mismatch gotcha" },
-    { simplechain, "simplechain", "Create chain of n processes" },
-    { LISTKEYS, "list", "List all valid keys" }
+    { outputPID,     "outputPID",     "Output Process ID and Parent Process ID" },
+    { outputIDs,     "outputIDs",     "Output User ID and Group ID" },
+    { simplefork,    "simplefork",    "Demonstrate fork() function" },
+    { twoprocs,      "twoprocs",      "Test PID after fork()" },
+    { badprocessID,  "badprocessID",  "PID mismatch gotcha" },
+    { simplechain,   "simplechain",   "Create chain of n processes" },
+    { LISTKEYS,      "list",          "List all valid keys" }
 };
 
 int string_to_key(char *s)
