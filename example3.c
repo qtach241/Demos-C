@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <unistd.h>
+#include <sys/types.h>
 
 int do_outputPID(void)
 {
@@ -26,4 +27,20 @@ int do_simplefork(void)
     x = 1;
     printf("PID = %ld, x = %d\r\n", (long)getpid(), x);
     return 0;
+}
+
+int do_twoprocs(void)
+{
+    pid_t childpid;
+
+    childpid = fork();
+    if (childpid == -1)
+    {
+        perror("Failed to fork");
+        return 1;
+    }
+    if (childpid == 0)
+        printf("I am child %ld, my parent is %ld\r\n", (long)getpid(), (long)getppid());
+    else
+        printf("I am parent %ld\r\n", (long)getpid());
 }

@@ -6,6 +6,7 @@ enum
     outputPID = 0,
     outputIDs,
     simplefork,
+    twoprocs,
     LISTKEYS,
     NUMKEYS
 };

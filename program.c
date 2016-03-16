@@ -6,7 +6,9 @@ static key_t key_lut[] =
 {
     { outputPID, "outputPID", "Output Process ID and Parent Process ID" },
     { outputIDs, "outputIDs", "Output User ID and Group ID" },
-    { simplefork, "simplefork", "Demo fork();" },
+    { simplefork, "simplefork", "Demonstrate fork() function" },
+    { twoprocs, "twoprocs", "Test PID after fork()" }
+
     { LISTKEYS, "list", "List all valid keys" }
 };
 
@@ -38,6 +40,7 @@ int execute_program(char *s)
     case outputPID:    return do_outputPID();
     case outputIDs:    return do_outputIDs();
     case simplefork:   return do_simplefork();
+    case twoprocs:     return do_twoprocs();
     case LISTKEYS:     return list_keys();
 
     case BADKEY:
