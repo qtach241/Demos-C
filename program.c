@@ -21,7 +21,7 @@ int string_to_key(char *s)
     return BADKEY;
 }
 
-int do_listkeys(void)
+int list_keys(void)
 {
     int i;
     for (i = 0; i < NUMKEYS; i++)

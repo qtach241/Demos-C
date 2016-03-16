@@ -18,4 +18,5 @@ typedef struct key_s
 } key_t;
 
 extern int string_to_key(char *s);
+extern int list_keys(void);
 extern int execute_program(char *s);
