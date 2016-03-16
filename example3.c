@@ -43,4 +43,5 @@ int do_twoprocs(void)
         printf("I am child %ld, my parent is %ld\r\n", (long)getpid(), (long)getppid());
     else
         printf("I am parent %ld\r\n", (long)getpid());
+    return 0;
 }
