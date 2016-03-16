@@ -71,14 +71,14 @@ int do_badprocessID(void)
     return 0;
 }
 
-int do_simplechain(char *argv)
+int do_simplechain(char *s)
 {
     pid_t childpid = 0;
     int i, n;
 
-    n = atoi(argv[1]);
+    n = atoi(s);
     for (i = 1; i < n; i++)
-        if (childpid = fork())
+        if ((childpid = fork()))
             break;
 
     fprintf(stderr, "i:%d PID:%ld Parent PID:%ld Child PID:%ld\r\n",
