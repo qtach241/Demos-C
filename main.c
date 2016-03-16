@@ -24,5 +24,5 @@ int main(int argc, char *argv[])
     {
         printf("One argument expected.\n");
     }
-	return 0;
+    return 0;
 }

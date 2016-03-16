@@ -25,11 +25,17 @@ int execute_program(char *s)
     switch(string_to_key(s))
     {
     case outputPID:
-        return do_outputPID();
+        printf("do_outputPID();\r\n");
+        //return do_outputPID();
+        break;
     case simplefork:
-        return do_simplefork();
+        printf("do_simplefork();\r\n");
+        //return do_simplefork();
+        break;
     case BADKEY:
+        printf("BADKEYr\n");
         return BADKEY;
+        break;
     }
-	return -1;
+    return -1;
 }
