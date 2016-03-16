@@ -14,9 +14,9 @@ int string_to_key(char *s)
     int i;
     for (i = 0; i < NUMKEYS; i++)
     {
-        key_t *key = key_lut + i*sizeof(key_t);
-        if (strcmp(key->key_string, s) == 0)
-            return key->key_value;
+        //key_t *key = key_lut + i*sizeof(key_t);
+        if (strcmp(key_lut[i].key_string, s) == 0)
+            return key_lut[i].key_value;
     }
     printf("string_to_key exit\r\n");
     return BADKEY;
