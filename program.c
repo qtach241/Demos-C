@@ -34,16 +34,16 @@ int list_keys(void)
     return 0;
 }
 
-int execute_program(char *s)
+int execute_program(int argc, char **argv)
 {
-    switch(string_to_key(s))
+    switch(string_to_key(argv[1]))
     {
     case outputPID:    return do_outputPID();
     case outputIDs:    return do_outputIDs();
     case simplefork:   return do_simplefork();
     case twoprocs:     return do_twoprocs();
     case badprocessID: return do_badprocessID();
-    case simplechain:  return do_simplechain(s);
+    case simplechain:  return do_simplechain(argc, argv);
 
     case LISTKEYS:     return list_keys();
 

@@ -22,4 +22,4 @@ typedef struct key_s
 
 extern int string_to_key(char *s);
 extern int list_keys(void);
-extern int execute_program(char *s);
+extern int execute_program(int argc, char **argv);
