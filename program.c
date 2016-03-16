@@ -7,7 +7,7 @@ static key_t key_lut[] =
     { outputPID, "outputPID", "Output Process ID and Parent Process ID" },
     { outputIDs, "outputIDs", "Output User ID and Group ID" },
     { simplefork, "simplefork", "Demonstrate fork() function" },
-    { twoprocs, "twoprocs", "Test PID after fork()" }
+    { twoprocs, "twoprocs", "Test PID after fork()" },
 
     { LISTKEYS, "list", "List all valid keys" }
 };
