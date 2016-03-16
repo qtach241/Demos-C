@@ -35,13 +35,11 @@ int execute_program(char *s)
 {
     switch(string_to_key(s))
     {
-    case outputPID:
-        return do_outputPID();
-    case simplefork:
-        return do_simplefork();
+    case outputPID:    return do_outputPID();
+    case outputIDs:    return do_outputIDs();
+    case simplefork:   return do_simplefork();
+    case LISTKEYS:     return list_keys();
 
-    case LISTKEYS:
-        return do_listkeys();
     case BADKEY:
         printf("Invalid Key!\r\n");
         return BADKEY;
