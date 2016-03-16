@@ -10,7 +10,7 @@ enum
 
 typedef struct key_s
 {
-    char *key_string;
+    char key_string[];
     int key_value;
 } key_t;
 
