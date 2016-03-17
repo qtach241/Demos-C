@@ -87,8 +87,7 @@ int do_simplechain(int argc, char *argv[])
     n = atoi(argv[2]);
     for (i = 1; i < n; i++)
         if ((childpid = fork()))
-            /* Parent breaks, child continues */
-            break;
+            break; /* Parent breaks, child continues */
 
     fprintf(stderr, "i:%d PID:%ld PPID:%ld CPID:%ld\r\n",
                     i, (long)getpid(), (long)getppid(), (long)childpid);
@@ -109,8 +108,7 @@ int do_simplefan(int argc, char *argv[])
     n = atoi(argv[2]);
     for (i = 1; i < n; i++)
         if ((childpid = fork()) <= 0)
-            /* Child breaks, parent continues */
-            break;
+            break; /* Child breaks, parent continues */
 
     fprintf(stderr, "i:%d PID:%ld PPID:%ld CPID:%ld\r\n",
                     i, (long)getpid(), (long)getppid(), (long)childpid);
@@ -131,10 +129,31 @@ int do_fanwait(int argc, char *argv[])
     n = atoi(argv[2]);
     for (i = 1; i < n; i++)
         if ((childpid = fork()) <= 0)
-            break;
+            break; /* Child breaks, parent continues */
 
-    while(r_wait(NULL) > 0); /* wait for all of your children */
+    while(r_wait(NULL) > 0); /* Parent must wait for ALL of their children before proceeding. */
     fprintf(stderr, "i:%d PID:%ld PPID:%ld CPID:%ld\r\n",
                     i, (long)getpid(), (long)getppid(), (long)childpid);
+    return 0;
+}
+
+int do_parentwaitpid(void)
+{
+    pid_t childpid;
+
+    childpid = fork();
+    if (childpid == -1)
+    {
+        perror("Failed to fork");
+        return 1;
+    }
+
+    if (childpid == 0)
+        fprintf(stderr, "I am child %ld\r\n", (long)getpid());
+    else if (wait(NULL) != childpid)
+        fprintf(stderr, "A signal must have interrupted the wait!\r\n");
+    else
+        fprintf(stderr, "I am parent %ld with child %ld\r\n", (long)getpid(),
+                        (long)childpid);
     return 0;
 }

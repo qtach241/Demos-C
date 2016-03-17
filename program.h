@@ -11,6 +11,7 @@ enum
     simplechain,
     simplefan,
     fanwait,
+    parentwaitpid,
     LISTKEYS,
     NUMKEYS
 };

@@ -18,7 +18,7 @@ int main(int argc, char *argv[])
 
         if (execute_program(argc, argv) == 0)
         {
-            printf("Program returned success (Process: %ld)!\r\n", (long)getpid());
+            printf("Program returned success! (Process: %ld)\r\n", (long)getpid());
         }
         else
         {

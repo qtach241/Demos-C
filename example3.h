@@ -6,3 +6,4 @@ extern int do_badprocessID(void);
 extern int do_simplechain(int argc, char **argv);
 extern int do_simplefan(int argc, char **argv);
 extern int do_fanwait(int argc, char **argv);
+extern int do_parentwaitpid(void);
