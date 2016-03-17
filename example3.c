@@ -187,3 +187,32 @@ int do_fanwaitmsg(int argc, char *argv[])
                     (long)getpid(), (long)getppid());
     return 0;
 }
+
+int do_chainwaitmsg(int argc, char *argv[])
+{
+    pid_t childpid;
+    pid_t waitreturn;
+    int i, n;
+
+    if (argc != 3)
+    {
+        fprintf(stderr, "Usage: %s processes\r\n", argv[0]);
+        return 1;
+    }
+
+    n = atoi(argv[2]);
+    for (i = 1; i < n; i++)
+        if (childpid = fork())
+            break; /* Parent breaks, child continues. */
+
+    /* Parent waits for child, which in-turn waits for child, etc. */
+    while(childpid != (waitreturn = wait(NULL)))
+    {
+        if ((waitreturn == -1) && (errno != EINTR))
+            break;
+    }
+
+    fprintf(stderr, "I am process %ld, my parent is %ld\r\n",
+                    (long)getpid(), (long)getppid());
+    return 0;
+}

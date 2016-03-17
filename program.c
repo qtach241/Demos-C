@@ -13,7 +13,8 @@ static key_t key_lut[] =
     { SIMPLEFAN,     "simplefan",     "Create fan of n processes" },
     { FANWAIT,       "fanwait",       "Like simplefan but only prints after all processes exit" },
     { PARENTWAITPID, "parentwaitpid", "See page 101 example 3.18" },
-    { FANWAITMSG,    "fanwaitmsg",    "Like fanwait but with different msg" },
+    { FANWAITMSG,    "fanwaitmsg",    "Fork processes in a fan and print msg when finished" },
+    { CHAINWAITMSG,  "chainwaitmsg",  "Fork processes in a chain and print msg when finished" },
     { LISTKEYS,      "list",          "List all valid keys" }
 };
 
@@ -52,6 +53,7 @@ int execute_program(int argc, char **argv)
     case FANWAIT:          return do_fanwait(argc, argv);
     case PARENTWAITPID:    return do_parentwaitpid();
     case FANWAITMSG:       return do_fanwaitmsg(argc, argv);
+    case CHAINWAITMSG:     return do_chainwaitmsg(argc, argv);
 
     case LISTKEYS:         return list_keys();
 
