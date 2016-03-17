@@ -202,7 +202,7 @@ int do_chainwaitmsg(int argc, char *argv[])
 
     n = atoi(argv[2]);
     for (i = 1; i < n; i++)
-        if (childpid = fork())
+        if ((childpid = fork()))
             break; /* Parent breaks, child continues. */
 
     /* Parent waits for child, which in-turn waits for child, etc. */
