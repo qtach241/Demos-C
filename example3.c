@@ -1,7 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <sys/wait.h>
 #include <sys/types.h>
+#include "restart.h"
 
 int do_outputPID(void)
 {
@@ -87,7 +89,7 @@ int do_simplechain(int argc, char *argv[])
         if ((childpid = fork()))
             break;
 
-    fprintf(stderr, "i:%d PID:%ld Parent PID:%ld Child PID:%ld\r\n",
+    fprintf(stderr, "i:%d PID:%ld PPID:%ld CPID:%ld\r\n",
                     i, (long)getpid(), (long)getppid(), (long)childpid);
     return 0;
 }
@@ -108,7 +110,29 @@ int do_simplefan(int argc, char *argv[])
         if ((childpid = fork()) <= 0)
             break;
 
-    fprintf(stderr, "i:%d PID:%ld Parent PID:%ld Child PID:%ld\r\n",
+    fprintf(stderr, "i:%d PID:%ld PPID:%ld CPID:%ld\r\n",
+                    i, (long)getpid(), (long)getppid(), (long)childpid);
+    return 0;
+}
+
+int do_fanwait(int argc, char *argv[])
+{
+    pid_t childpid;
+    int i, n;
+
+    if (argc != 3)
+    {
+        fprintf(stderr, "Usage: %s processes\r\n", argv[0]);
+        return 1;
+    }
+
+    n = atoi(argv[2]);
+    for (i = 1; i < n; i++)
+        if ((childpid = fork()) <= 0)
+            break;
+
+    while(r_wait(NULL) > 0); /* wait for all of your children */
+    fprintf(stderr, "i:%d PID:%ld PPID:%ld CPID:%ld\r\n",
                     i, (long)getpid(), (long)getppid(), (long)childpid);
     return 0;
 }

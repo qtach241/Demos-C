@@ -10,6 +10,7 @@ enum
     badprocessID,
     simplechain,
     simplefan,
+    fanwait,
     LISTKEYS,
     NUMKEYS
 };
