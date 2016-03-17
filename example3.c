@@ -81,7 +81,7 @@ int do_simplechain(int argc, char *argv[])
 
     if (argc != 3)
     {
-        fprintf(stderr, "Usage: %s processes\r\n", argv[0]);
+        fprintf(stderr, "Usage: %s %s <num proc>\r\n", argv[0], argv[1]);
         return 1;
     }
 
@@ -102,7 +102,7 @@ int do_simplefan(int argc, char *argv[])
 
     if (argc != 3)
     {
-        fprintf(stderr, "Usage: %s processes\r\n", argv[0]);
+        fprintf(stderr, "Usage: %s %s <num proc>\r\n", argv[0], argv[1]);
         return 1;
     }
 
@@ -123,7 +123,7 @@ int do_fanwait(int argc, char *argv[])
 
     if (argc != 3)
     {
-        fprintf(stderr, "Usage: %s processes\r\n", argv[0]);
+        fprintf(stderr, "Usage: %s %s <num proc>\r\n", argv[0], argv[1]);
         return 1;
     }
 
@@ -166,7 +166,7 @@ int do_fanwaitmsg(int argc, char *argv[])
 
     if (argc != 3)
     {
-        fprintf(stderr, "Usage: %s processes\r\n", argv[0]);
+        fprintf(stderr, "Usage: %s %s <num proc>\r\n", argv[0], argv[1]);
         return 1;
     }
 
@@ -196,7 +196,7 @@ int do_chainwaitmsg(int argc, char *argv[])
 
     if (argc != 3)
     {
-        fprintf(stderr, "Usage: %s processes\r\n", argv[0]);
+        fprintf(stderr, "Usage: %s %s <num proc>\r\n", argv[0], argv[1]);
         return 1;
     }
 
@@ -270,16 +270,36 @@ int do_execls(void)
         execl("/bin/ls", "ls", "-l", NULL);
     }
 
+    /* Only the parent can get here. */
     show_return_status();
-    return 0;
 
-#if 0
-    if (childpid != wait(NULL))
+    return 0;
+}
+
+int do_execcmd(char argc, char *argv[])
+{
+    pid_t childpid;
+
+    if (argc < 3)
     {
-        /* Only the parent can get here. */
-        perror("Parent failed to wait due to signal or error");
+        fprintf(stderr, "Usage: %s %s <command> <arg1> <arg2> ...\r\n", argv[0], argv[1]);
         return 1;
     }
+
+    childpid = fork();
+    if (childpid == -1)
+    {
+        perror("Failed to fork");
+        return 1;
+    }
+    if (childpid == 0)
+    {
+        execvp(argv[2], &argv[2]);
+        perror("Child failed to execvp the command");
+        return 1;
+    }
+
+    show_return_status();
+
     return 0;
-#endif
 }

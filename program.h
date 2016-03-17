@@ -15,6 +15,7 @@ enum
     FANWAITMSG,
     CHAINWAITMSG,
     EXECLS,
+    EXECCMD,
     LISTKEYS,
     NUMKEYS
 };
