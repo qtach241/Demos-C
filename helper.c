@@ -1,4 +1,3 @@
-#include <stdio.h>
 #include <errno.h>
 #include <stdlib.h>
 #include <string.h>
@@ -52,7 +51,7 @@ int makeargv(const char *s, const char *delimiters, char ***argvp)
         for (i = 1; i < numtokens; i++)
             *((*argvp) + i) = strtok(NULL, delimiters);
     }
-    *((*argvp) + numtokens) == NULL; /* Put in the final NULL pointer */
+    *((*argvp) + numtokens) = NULL; /* Put in the final NULL pointer */
     
     return numtokens;
 }
