@@ -1,3 +1,6 @@
+#ifndef RESTART_H
+#define RESTART_H
+
 #include <fcntl.h>
 #include <unistd.h>
 #include <sys/time.h>
@@ -8,3 +11,5 @@
 #endif
 
 pid_t r_wait(int *stat_loc);
+
+#endif

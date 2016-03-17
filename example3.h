@@ -1,5 +1,5 @@
-#include "restart.h"
-#include "helper.h"
+#ifndef EXAMPLE3_H
+#define EXAMPLE3_H
 
 extern int do_outputPID(void);
 extern int do_outputIDs(void);
@@ -16,3 +16,5 @@ extern void show_return_status(void);
 extern int do_execls(void);
 extern int do_execcmd(int argc, char **argv);
 extern int do_execcmdargv(int argc, char **argv);
+
+#endif

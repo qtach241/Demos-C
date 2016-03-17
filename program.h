@@ -1,4 +1,5 @@
-#include "example3.h"
+#ifndef PROGRAM_H
+#define PROGRAM_H
 
 enum
 {
@@ -31,3 +32,5 @@ typedef struct key_s
 extern int string_to_key(char *s);
 extern int list_keys(void);
 extern int execute_program(int argc, char **argv);
+
+#endif

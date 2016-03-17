@@ -5,6 +5,8 @@
 #include <sys/wait.h>
 #include <sys/types.h>
 #include "example3.h"
+#include "restart.h"
+#include "helper.h"
 
 int do_outputPID(void)
 {

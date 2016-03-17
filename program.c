@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "program.h"
+#include "example3.h"
 
 static key_t key_lut[] = 
 {
