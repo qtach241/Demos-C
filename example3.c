@@ -1,3 +1,4 @@
+#include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -87,7 +88,7 @@ int do_simplechain(int argc, char *argv[])
     n = atoi(argv[2]);
     for (i = 1; i < n; i++)
         if ((childpid = fork()))
-            break; /* Parent breaks, child continues */
+            break; /* Parent breaks, child continues. */
 
     fprintf(stderr, "i:%d PID:%ld PPID:%ld CPID:%ld\r\n",
                     i, (long)getpid(), (long)getppid(), (long)childpid);
@@ -108,7 +109,7 @@ int do_simplefan(int argc, char *argv[])
     n = atoi(argv[2]);
     for (i = 1; i < n; i++)
         if ((childpid = fork()) <= 0)
-            break; /* Child breaks, parent continues */
+            break; /* Child breaks, parent continues. */
 
     fprintf(stderr, "i:%d PID:%ld PPID:%ld CPID:%ld\r\n",
                     i, (long)getpid(), (long)getppid(), (long)childpid);
@@ -129,9 +130,9 @@ int do_fanwait(int argc, char *argv[])
     n = atoi(argv[2]);
     for (i = 1; i < n; i++)
         if ((childpid = fork()) <= 0)
-            break; /* Child breaks, parent continues */
+            break; /* Child breaks, parent continues. */
 
-    while(r_wait(NULL) > 0); /* Parent must wait for ALL of their children before proceeding. */
+    while(r_wait(NULL) > 0); /* Parent waits for ALL of their children before proceeding. */
     fprintf(stderr, "i:%d PID:%ld PPID:%ld CPID:%ld\r\n",
                     i, (long)getpid(), (long)getppid(), (long)childpid);
     return 0;
@@ -155,5 +156,34 @@ int do_parentwaitpid(void)
     else
         fprintf(stderr, "I am parent %ld with child %ld\r\n", (long)getpid(),
                         (long)childpid);
+    return 0;
+}
+
+int do_fanwaitmsg(int argc, char *argv)
+{
+    pid_t childpid = 0;
+    int i, n;
+
+    if (argc != 3)
+    {
+        fprintf(stderr, "Usage: %s processes\r\n", argv[0]);
+        return 1;
+    }
+
+    n = atoi(argv[2]);
+    for (i = 1; i < n; i++)
+        if ((childpid = fork()) <= 0)
+            break; /* Child breaks, parent continues. */
+
+    while(1)
+    {
+        /* Parent waits for ALL of their children before proceeding. */
+        childpid = wait(NULL);
+        if ((childpid == -1) && (errno != EINTR))
+            break;
+    }
+
+    fprintf(stderr, "I am process %ld, my parent is %ld\r\n",
+                    (long)getpid(), (long)getppid());
     return 0;
 }

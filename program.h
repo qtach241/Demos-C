@@ -3,15 +3,16 @@
 enum
 {
     BADKEY = -1,
-    outputPID = 0,
-    outputIDs,
-    simplefork,
-    twoprocs,
-    badprocessID,
-    simplechain,
-    simplefan,
-    fanwait,
-    parentwaitpid,
+    OUTPUTPID = 0,
+    OUTPUTIDS,
+    SIMPLEFORK,
+    TWOPROCS,
+    BADPROCESSID,
+    SIMPLECHAIN,
+    SIMPLEFAN,
+    FANWAIT,
+    PARENTWAITPID,
+    FANWAITMSG,
     LISTKEYS,
     NUMKEYS
 };
