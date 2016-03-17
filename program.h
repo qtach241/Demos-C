@@ -16,6 +16,7 @@ enum
     CHAINWAITMSG,
     EXECLS,
     EXECCMD,
+    EXECCMDARGV,
     LISTKEYS,
     NUMKEYS
 };

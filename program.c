@@ -17,6 +17,7 @@ static key_t key_lut[] =
     { CHAINWAITMSG,  "chainwaitmsg",  "Fork processes in a chain and print msg when finished" },
     { EXECLS,        "execls",        "Create a child process to run ls -l" },
     { EXECCMD,       "execcmd",       "Create a child process to run any command" },
+    { EXECCMDARGV,   "execcmdargv",   "Like execcmd but with hyphen delimited arguments" },
     { LISTKEYS,      "list",          "List all valid keys" }
 };
 
@@ -58,6 +59,7 @@ int execute_program(int argc, char **argv)
     case CHAINWAITMSG:     return do_chainwaitmsg(argc, argv);
     case EXECLS:           return do_execls();
     case EXECCMD:          return do_execcmd(argc, argv);
+    case EXECCMDARGV:      return do_execcmdargv(argc, argv);
 
     case LISTKEYS:         return list_keys();
 

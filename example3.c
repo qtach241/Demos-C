@@ -4,7 +4,7 @@
 #include <unistd.h>
 #include <sys/wait.h>
 #include <sys/types.h>
-#include "restart.h"
+#include "example3.h"
 
 int do_outputPID(void)
 {
@@ -276,7 +276,13 @@ int do_execls(void)
     return 0;
 }
 
-int do_execcmd(char argc, char *argv[])
+
+/*
+do_execcmd avoids constructing the argv parameter to pass to execvp by realizing that the
+argument array needed to pass into execvp is a subset of the original argument array. The argument
+array for execvp starts at &argv[2].
+*/
+int do_execcmd(int argc, char *argv[])
 {
     pid_t childpid;
 
@@ -298,6 +304,42 @@ int do_execcmd(char argc, char *argv[])
         /* execvp does not need to know about argv[1] or argv[2] ("./demo" and "execcmd"). */
         execvp(argv[2], &argv[2]);
         perror("Child failed to execvp the command");
+        return 1;
+    }
+
+    show_return_status();
+
+    return 0;
+}
+
+int do_execcmdargv(int argc, char *argv[])
+{
+    pid_t childpid;
+    char delim[] = "-";
+    char **myargv;
+
+    if (argc != 2)
+    {
+        fprintf(stderr, "Usage: %s %s <comma delimited string>\r\n", argv[0], argv[1]);
+        return 1;
+    }
+    childpid = fork();
+    if (childpid == -1)
+    {
+        perror("Failed to fork");
+        return 1;
+    }
+    if (childpid == 0)
+    {
+        if (makeargv(argv[2], delim, &myargv) == -1)
+        {
+            perror("Child failed to construct argument array");
+        }
+        else
+        {
+            execvp(myargv[0], &myargv[0]);
+            perror("Child failed to exec command");
+        }
         return 1;
     }
 
