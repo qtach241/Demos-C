@@ -159,7 +159,7 @@ int do_parentwaitpid(void)
     return 0;
 }
 
-int do_fanwaitmsg(int argc, char *argv)
+int do_fanwaitmsg(int argc, char *argv[])
 {
     pid_t childpid = 0;
     int i, n;
