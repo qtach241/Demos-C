@@ -317,10 +317,10 @@ int do_execcmd(int argc, char *argv[])
 int do_execcmdargv(int argc, char *argv[])
 {
     pid_t childpid;
-    char delim[] = "-";
+    char delim[] = ",";
     char **myargv;
 
-    if (argc != 2)
+    if (argc != 3)
     {
         fprintf(stderr, "Usage: %s %s <comma delimited string>\r\n", argv[0], argv[1]);
         return 1;
