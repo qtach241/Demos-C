@@ -12,7 +12,7 @@ static key_t key_lut[] =
     { simplechain,   "simplechain",   "Create chain of n processes" },
     { simplefan,     "simplefan",     "Create fan of n processes" },
     { fanwait,       "fanwait",       "Like simplefan but only prints after all processes exit" },
-    { parentwaitpid, "parentwaitpid"  "See page 101 example 3.18" },
+    { parentwaitpid, "parentwaitpid", "See page 101 example 3.18" },
     { LISTKEYS,      "list",          "List all valid keys" }
 };
 
