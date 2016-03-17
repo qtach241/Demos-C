@@ -270,6 +270,10 @@ int do_execls(void)
         execl("/bin/ls", "ls", "-l", NULL);
     }
 
+    show_return_status();
+    return 0;
+
+#if 0
     if (childpid != wait(NULL))
     {
         /* Only the parent can get here. */
@@ -277,4 +281,5 @@ int do_execls(void)
         return 1;
     }
     return 0;
+#endif
 }
