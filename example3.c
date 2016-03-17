@@ -294,6 +294,8 @@ int do_execcmd(char argc, char *argv[])
     }
     if (childpid == 0)
     {
+        /* &argv[2] is the starting address argument vector to pass into execvp. */
+        /* execvp does not need to know about argv[1] or argv[2] ("./demo" and "execcmd"). */
         execvp(argv[2], &argv[2]);
         perror("Child failed to execvp the command");
         return 1;
