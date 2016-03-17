@@ -87,6 +87,7 @@ int do_simplechain(int argc, char *argv[])
     n = atoi(argv[2]);
     for (i = 1; i < n; i++)
         if ((childpid = fork()))
+            /* Parent breaks, child continues */
             break;
 
     fprintf(stderr, "i:%d PID:%ld PPID:%ld CPID:%ld\r\n",
@@ -108,6 +109,7 @@ int do_simplefan(int argc, char *argv[])
     n = atoi(argv[2]);
     for (i = 1; i < n; i++)
         if ((childpid = fork()) <= 0)
+            /* Child breaks, parent continues */
             break;
 
     fprintf(stderr, "i:%d PID:%ld PPID:%ld CPID:%ld\r\n",
