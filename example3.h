@@ -9,3 +9,5 @@ extern int do_fanwait(int argc, char **argv);
 extern int do_parentwaitpid(void);
 extern int do_fanwaitmsg(int argc, char **argv);
 extern int do_chainwaitmsg(int argc, char **argv);
+extern void show_return_status(void);
+extern int do_execls(void);

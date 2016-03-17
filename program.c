@@ -15,6 +15,7 @@ static key_t key_lut[] =
     { PARENTWAITPID, "parentwaitpid", "See page 101 example 3.18" },
     { FANWAITMSG,    "fanwaitmsg",    "Fork processes in a fan and print msg when finished" },
     { CHAINWAITMSG,  "chainwaitmsg",  "Fork processes in a chain and print msg when finished" },
+    { EXECLS,        "execls",        "Create a child process to run ls -l" },
     { LISTKEYS,      "list",          "List all valid keys" }
 };
 
@@ -54,6 +55,7 @@ int execute_program(int argc, char **argv)
     case PARENTWAITPID:    return do_parentwaitpid();
     case FANWAITMSG:       return do_fanwaitmsg(argc, argv);
     case CHAINWAITMSG:     return do_chainwaitmsg(argc, argv);
+    case EXECLS:           return do_execls();
 
     case LISTKEYS:         return list_keys();
 

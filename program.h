@@ -14,6 +14,7 @@ enum
     PARENTWAITPID,
     FANWAITMSG,
     CHAINWAITMSG,
+    EXECLS,
     LISTKEYS,
     NUMKEYS
 };

@@ -212,7 +212,69 @@ int do_chainwaitmsg(int argc, char *argv[])
             break;
     }
 
+    /* The last child will be the first to print, the original parent will be the last to print */
     fprintf(stderr, "I am process %ld, my parent is %ld\r\n",
                     (long)getpid(), (long)getppid());
+    return 0;
+}
+
+
+/*
+POSIX Child Return Status Macro Pairs:
+
+WIFEXITED(int status): Evaluates to non-zero value when child terminates normally, and if so...
+WEXITSTATUS(int status): Evaluates to the low-order 8 bits returned by the child from main().
+
+WIFSIGNALED(int status): Evaluates to non-zero value when child terminates due to uncaught signal, and if so...
+WTERMSIG(int status): Evaluates to the number of the signal that caused the termination.
+
+WIFSTOPPED(int status): Evaluates to non-zero value if a child is currently stopped, and if so...
+WSTOPSIG(int status): Evaluates to the number of the signal that caused child process to stop.
+*/
+void show_return_status(void)
+{
+    pid_t childpid;
+    int status;
+
+    childpid = r_wait(&status);
+
+    if (childpid == -1)
+        perror("Failed to wait for child");
+    else if(WIFEXITED(status) && !WEXITSTATUS(status))
+        printf("Child %ld terminated normally\r\n", (long)childpid);
+    else if (WIFEXITED(status))
+        printf("Child %ld terminated with return status %d\r\n",
+               (long)childpid, WEXITSTATUS(status));
+    else if (WIFSIGNALED(status))
+        printf("Child %ld terminated due to uncaught signal %d\r\n",
+               (long)childpid, WTERMSIG(status));
+    else if (WIFSTOPPED(status))
+        printf("Child %ld stopped due to signal %d\r\n",
+               (long)childpid, WSTOPSIG(status));
+}
+
+int do_execls(void)
+{
+    pid_t childpid;
+
+    childpid = fork();
+    if (childpid == -1)
+    {
+        perror("Failed to fork");
+        return 1;
+    }
+
+    if (childpid == 0)
+    {
+        /* Only the child can get here. */
+        execl("/bin/ls", "ls", "-l", NULL);
+    }
+
+    if (childpid != wait(NULL))
+    {
+        /* Only the parent can get here. */
+        perror("Parent failed to wait due to signal or error");
+        return 1;
+    }
     return 0;
 }
