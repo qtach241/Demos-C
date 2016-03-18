@@ -132,7 +132,7 @@ int do_simpleredirect(void)
         perror("Failed to close extra pipe file descriptors on sort");
     else
     {
-        execl("/bin/sort", "sort", "-n", "+4", NULL);
+        execl("/bin/sort", "sort", "-n", NULL);
         perror("Failed to exec sort");
     }
     return 1;
