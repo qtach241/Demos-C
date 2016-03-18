@@ -19,6 +19,7 @@ enum
     EXECCMD,
     EXECCMDARGV,
     RUNBACK,
+    SIMPLECOPY,
     LISTKEYS,
     NUMKEYS
 };

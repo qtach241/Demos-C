@@ -2,6 +2,7 @@
 #include <string.h>
 #include "program.h"
 #include "example3.h"
+#include "example4.h"
 
 static key_t key_lut[] = 
 {
@@ -20,6 +21,7 @@ static key_t key_lut[] =
     { EXECCMD,       "execcmd",       "Create a child process to run any command" },
     { EXECCMDARGV,   "execcmdargv",   "Like execcmd but with hyphen delimited arguments" },
     { RUNBACK,       "runback",       "Create a child process to run a background command" },
+    { SIMPLECOPY,    "simplecopy",    "Copy a file from standard input to standard output" },
     { LISTKEYS,      "list",          "List all valid keys" }
 };
 
@@ -63,6 +65,7 @@ int execute_program(int argc, char **argv)
     case EXECCMD:          return do_execcmd(argc, argv);
     case EXECCMDARGV:      return do_execcmdargv(argc, argv);
     case RUNBACK:          return do_runback(argc, argv);
+    case SIMPLECOPY:       return do_simplecopy();
 
     case LISTKEYS:         return list_keys();
 
