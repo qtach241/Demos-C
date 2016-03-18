@@ -4,7 +4,7 @@
 #include "example3.h"
 #include "example4.h"
 
-static key_t key_lut[] = 
+static keycode_t key_lut[] = 
 {
     { OUTPUTPID,     "outputPID",     "Output Process ID and Parent Process ID" },
     { OUTPUTIDS,     "outputIDs",     "Output User ID and Group ID" },
