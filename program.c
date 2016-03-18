@@ -19,11 +19,43 @@ static key_t key_lut[] =
     { CHAINWAITMSG,  "chainwaitmsg",  "Fork processes in a chain and print msg when finished" },
     { EXECLS,        "execls",        "Create a child process to run ls -l" },
     { EXECCMD,       "execcmd",       "Create a child process to run any command" },
-    { EXECCMDARGV,   "execcmdargv",   "Like execcmd but with hyphen delimited arguments" },
+    { EXECCMDARGV,   "execcmdargv",   "Like execcmd but with comma delimited arguments" },
     { RUNBACK,       "runback",       "Create a child process to run a background command" },
     { SIMPLECOPY,    "simplecopy",    "Copy a file from standard input to standard output" },
+    { COPYFILE,      "copyfile",      "Generic version of simplecopy" },
     { LISTKEYS,      "list",          "List all valid keys" }
 };
+
+int execute_program(int argc, char **argv)
+{
+    switch(string_to_key(argv[1]))
+    {
+    case OUTPUTPID:        return do_outputPID();
+    case OUTPUTIDS:        return do_outputIDs();
+    case SIMPLEFORK:       return do_simplefork();
+    case TWOPROCS:         return do_twoprocs();
+    case BADPROCESSID:     return do_badprocessID();
+    case SIMPLECHAIN:      return do_simplechain(argc, argv);
+    case SIMPLEFAN:        return do_simplefan(argc, argv);
+    case FANWAIT:          return do_fanwait(argc, argv);
+    case PARENTWAITPID:    return do_parentwaitpid();
+    case FANWAITMSG:       return do_fanwaitmsg(argc, argv);
+    case CHAINWAITMSG:     return do_chainwaitmsg(argc, argv);
+    case EXECLS:           return do_execls();
+    case EXECCMD:          return do_execcmd(argc, argv);
+    case EXECCMDARGV:      return do_execcmdargv(argc, argv);
+    case RUNBACK:          return do_runback(argc, argv);
+    case SIMPLECOPY:       return do_simplecopy();
+    case COPYFILE:         return do_copyfile(argc, argv);
+
+    case LISTKEYS:         return list_keys();
+
+    case BADKEY:
+        printf("Invalid Key!\r\n");
+        return BADKEY;
+    }
+    return -1;
+}
 
 int string_to_key(char *s)
 {
@@ -46,32 +78,3 @@ int list_keys(void)
     return 0;
 }
 
-int execute_program(int argc, char **argv)
-{
-    switch(string_to_key(argv[1]))
-    {
-    case OUTPUTPID:        return do_outputPID();
-    case OUTPUTIDS:        return do_outputIDs();
-    case SIMPLEFORK:       return do_simplefork();
-    case TWOPROCS:         return do_twoprocs();
-    case BADPROCESSID:     return do_badprocessID();
-    case SIMPLECHAIN:      return do_simplechain(argc, argv);
-    case SIMPLEFAN:        return do_simplefan(argc, argv);
-    case FANWAIT:          return do_fanwait(argc, argv);
-    case PARENTWAITPID:    return do_parentwaitpid();
-    case FANWAITMSG:       return do_fanwaitmsg(argc, argv);
-    case CHAINWAITMSG:     return do_chainwaitmsg(argc, argv);
-    case EXECLS:           return do_execls();
-    case EXECCMD:          return do_execcmd(argc, argv);
-    case EXECCMDARGV:      return do_execcmdargv(argc, argv);
-    case RUNBACK:          return do_runback(argc, argv);
-    case SIMPLECOPY:       return do_simplecopy();
-
-    case LISTKEYS:         return list_keys();
-
-    case BADKEY:
-        printf("Invalid Key!\r\n");
-        return BADKEY;
-    }
-    return -1;
-}

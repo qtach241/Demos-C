@@ -20,6 +20,7 @@ enum
     EXECCMDARGV,
     RUNBACK,
     SIMPLECOPY,
+    COPYFILE,
     LISTKEYS,
     NUMKEYS
 };
