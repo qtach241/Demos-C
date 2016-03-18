@@ -24,6 +24,7 @@ enum
     MONITORFORK,
     PARENTPIPE,
     SYNCFAN,
+    SIMPLEREDIR,
     LISTKEYS,
     NUMKEYS
 };
