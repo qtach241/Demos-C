@@ -10,12 +10,12 @@ OBJECTS = $(patsubst %.c, %.o, $(wildcard *.c))
 all: $(TARGET)
 
 $(TARGET): $(OBJECTS)
-        $(LD) -o $@ $^ $(LDFLAGS)
+	$(LD) -o $@ $^ $(LDFLAGS)
 
 # You don't even need to be explicit here,
 # compiling C files is handled automagically by Make.
 %.o: %.c
-        $(CC) $(CFLAGS) $^ -o $@
+	$(CC) $(CFLAGS) $^ -o $@
 
 clean:
-        rm $(TARGET) $(OBJECTS)
+	rm $(TARGET) $(OBJECTS)
