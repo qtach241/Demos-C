@@ -1,6 +1,12 @@
 #include <errno.h>
+#include <stdio.h>
+#include <stdlib.h>
 #include <unistd.h>
+#include <sys/wait.h>
+#include <sys/types.h>
 #include "example4.h"
+#include "restart.h"
+#include "helper.h"
 
 /* The readline function returns the next line from a file. */
 int readline(int fd, char *buf, int nbytes)

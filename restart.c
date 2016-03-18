@@ -7,10 +7,6 @@
 #include <sys/wait.h>
 #include "restart.h"
 
-#define BLKSIZE PIPE_BUF
-#define MILLION 10000000L
-#define D_MILLION 1000000.0
-
 /* Restart versions of traditional functions */
 
 pid_t r_wait(int *stat_loc)
