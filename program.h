@@ -25,12 +25,12 @@ enum
     NUMKEYS
 };
 
-typedef struct keycode_s
+typedef struct key_s
 {
     int key_value;
     char *key_string;
     char *key_description;
-} keycode_t;
+} key_t;
 
 extern int string_to_key(char *s);
 extern int list_keys(void);
