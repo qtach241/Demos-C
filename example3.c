@@ -373,11 +373,12 @@ int do_runback(int argc, char *argv[])
         if (setsid() == -1)
             perror("Child failed to become a session leader");
         else if (makeargv(argv[2], delim, &myargv) == -1)
-            pfrintf(stderr, "Child failed to construct argument array\r\n");
+            fprintf(stderr, "Child failed to construct argument array\r\n");
         else
         {
             execvp(myargv[0], &myargv[0]);
             perror("Child failed to exec command");
         }
     }
+    return 0;
 }
