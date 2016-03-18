@@ -358,7 +358,7 @@ int do_runback(int argc, char *argv[])
 
     if (argc != 3)
     {
-        fprintf(stderr, "Usage: %s %s <comma delimited string>\r\n", argv[0], argv[1]);
+        fprintf(stderr, "Usage: %s %s <space delimited string>\r\n", argv[0], argv[1]);
         return 1;
     }
 
