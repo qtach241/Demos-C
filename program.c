@@ -26,6 +26,7 @@ static keycode_t key_lut[] =
     { COPYFILE,      "copyfile",      "Generic version of simplecopy" },
     { MONITORFORK,   "monitorfork",   "Copy two files to STDOUT using fork" },
     { PARENTPIPE,    "parentpipe",    "Parent writes string to pipe, child reads" },
+    { SIMPLEREDIR,   "simpleredir",   "Create pipe to run 'ls -l | sort -n +4'" },
     { SYNCFAN,       "syncfan",       "Create fan of processes and sync echo to stderr" },
     { LISTKEYS,      "list",          "List all valid keys" }
 };
@@ -54,6 +55,7 @@ int execute_program(int argc, char **argv)
     case MONITORFORK:      return do_monitorfork(argc, argv);
     case PARENTPIPE:       return do_parentwritepipe();
     case SYNCFAN:          return do_synchronizefan(argc, argv);
+    case SIMPLEREDIR:      return do_simpleredirect();
 
     case LISTKEYS:         return list_keys();
 
