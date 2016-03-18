@@ -49,6 +49,8 @@ int copyfile(int fromfd, int tofd)
     int bytesread, byteswritten;
     int totalbytes = 0;
 
+    fprintf(stderr, "Warning: Using deprecated version of copyfile\r\n");
+
     while(1)
     {
         /* Restarts the read if interrupted. */
