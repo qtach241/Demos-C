@@ -181,7 +181,7 @@ int do_copyfile(int argc, char *argv[])
 /*
 Monitors two files by forking a child process.
 */
-int do_monitorfork(int argv, char *argv[])
+int do_monitorfork(int argc, char *argv[])
 {
     int bytesread;
     int childpid;
