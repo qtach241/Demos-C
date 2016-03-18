@@ -94,7 +94,7 @@ int copyfile(int fromfd, int tofd)
             break;
         totalbytes += byteswritten;
     }
-    return totalbtyes;
+    return totalbytes;
 }
 #endif
 
@@ -126,11 +126,11 @@ int readwrite(int fromfd, int tofd)
     return bytesread;
 }
 
-int readwriteblock(int fromfd, int tofd, char*buf, int size)
+int readwriteblock(int fromfd, int tofd, char *buf, int size)
 {
     int bytesread;
 
-    bytesread = readblock(fromfd, buff, size);
+    bytesread = readblock(fromfd, buf, size);
     if (bytesread != size) /* Can only be 0 or -1 */
         return bytesread;
 
