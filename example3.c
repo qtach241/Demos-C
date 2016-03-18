@@ -120,7 +120,7 @@ int do_simplefan(int argc, char *argv[])
 
 int do_fanwait(int argc, char *argv[])
 {
-    pid_t childpid;
+    pid_t childpid = 0;
     int i, n;
 
     if (argc != 3)
