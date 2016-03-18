@@ -40,11 +40,58 @@ int do_parentwritepipe(void)
     }
 
     if (childpid)
-        write(fd[1], bufout, strlen(bufout)+1);
-    else
-        bytesin = read(fd[0], bufin, BUFSIZE);
+        write(fd[1], bufout, strlen(bufout)+1); /* Parent code. */
+    else 
+        bytesin = read(fd[0], bufin, BUFSIZE); /* Child code. */
 
     fprintf(stderr, "[%ld]:my bufin is {%.*s}, my bufout is {%s}\r\n",
                     (long)getpid(), bytesin, bufin, bufout);
     return 0;
+}
+
+/*
+The parent creates a pipe before creating n-1 children. After creating all its children, the
+parent writes n characters to the pipe. Each process, including the parent, reads a character
+from the pipe before proceeding to output its information to standard error. Since the read
+from the pipe blocks until there is something to read, each child waits until the parent writes
+to the pipe, thereby providing a synchronization point called a barrier. None of the processes
+can do any writing to standard error until all of the processes have been created.
+*/
+int do_synchronizefan(int argc, char *argv[])
+{
+    char buf[] = "g";
+    pid_t childpid = 0;
+    int fd[2];
+    int i, n;
+
+    if (argc != 3)
+    {
+        fprintf(stderr, "Usage: %s %s <num proc>\r\n", argv[0], argv[1]);
+        return 1;
+    }
+
+    n = atoi(argv[2]);
+    if (pipe(fd) == -1)
+    {
+        perror("Failed to create the synchronization pipe");
+        return 1;
+    }
+
+    for (i = 1; i < n; i++)
+        if ((childpid = fork()) <= 0)
+            break; /* Child breaks, parent continues. */
+
+    if (childpid > 0)
+    {
+        for (i = 0; i < n; i++)
+            if (r_write(fd[1], buf, 1) != 1)
+                perror("Failed to write the synchronization characters");
+    }
+    if (r_read(fd[0], buf, 1) != 1)
+        perror("Failed to read synchronization characters");
+
+    fprintf(stderr, "i:%d process ID:%ld parent ID:%ld child ID:%ld\r\n",
+            i, (long)getpid(), (long)getppid(), (long)childpid);
+
+    return (childpid == -1);
 }

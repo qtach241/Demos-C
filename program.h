@@ -23,6 +23,7 @@ enum
     COPYFILE,
     MONITORFORK,
     PARENTPIPE,
+    SYNCFAN,
     LISTKEYS,
     NUMKEYS
 };

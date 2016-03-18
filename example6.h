@@ -2,5 +2,7 @@
 #define EXAMPLE6_H
 
 extern int do_parentwritepipe(void);
+extern int do_synchronizefan(int argc, char **argv);
+
 
 #endif
