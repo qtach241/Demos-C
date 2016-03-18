@@ -81,12 +81,15 @@ int do_synchronizefan(int argc, char *argv[])
         if ((childpid = fork()) <= 0)
             break; /* Child breaks, parent continues. */
 
+    /* Parent writes to pipe after all chidren created. */
     if (childpid > 0)
     {
+        sleep(10);
         for (i = 0; i < n; i++)
             if (r_write(fd[1], buf, 1) != 1)
                 perror("Failed to write the synchronization characters");
     }
+    /* All processes read from pipe, children who try to read before parent writes will block. */
     if (r_read(fd[0], buf, 1) != 1)
         perror("Failed to read synchronization characters");
 
