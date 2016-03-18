@@ -3,6 +3,7 @@
 
 #include <fcntl.h>
 #include <unistd.h>
+#include <limits.h>
 #include <sys/time.h>
 #include <sys/types.h>
 
