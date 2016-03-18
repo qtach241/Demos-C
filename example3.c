@@ -349,3 +349,35 @@ int do_execcmdargv(int argc, char *argv[])
 
     return 0;
 }
+
+int do_runback(int argc, char *argv[])
+{
+    pid_t childpid;
+    char delim[] = " \t";
+    char **myargv;
+
+    if (argc != 3)
+    {
+        fprintf(stderr, "Usage: %s %s <comma delimited string>\r\n", argv[0], argv[1]);
+        return 1;
+    }
+
+    childpid = fork();
+    if (childpid == -1)
+    {
+        perror("Failed to fork");
+        return 1;
+    }
+    if (childpid == 0)
+    {
+        if (setsid() == -1)
+            perror("Child failed to become a session leader");
+        else if (makeargv(argv[2], delim, &myargv) == -1)
+            pfrintf(stderr, "Child failed to construct argument array\r\n");
+        else
+        {
+            execvp(myargv[0], &myargv[0]);
+            perror("Child failed to exec command");
+        }
+    }
+}
