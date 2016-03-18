@@ -24,6 +24,7 @@ static keycode_t key_lut[] =
     { SIMPLECOPY,    "simplecopy",    "Copy a file from standard input to standard output" },
     { COPYFILE,      "copyfile",      "Generic version of simplecopy" },
     { MONITORFORK,   "monitorfork",   "Copy two files to STDOUT using fork" },
+    { PARENTPIPE,    "parentpipe",    "Parent writes string to pipe, child reads" },
     { LISTKEYS,      "list",          "List all valid keys" }
 };
 
@@ -49,6 +50,7 @@ int execute_program(int argc, char **argv)
     case SIMPLECOPY:       return do_simplecopy();
     case COPYFILE:         return do_copyfile(argc, argv);
     case MONITORFORK:      return do_monitorfork(argc, argv);
+    case PARENTPIPE:       return do_parentwritepipe();
 
     case LISTKEYS:         return list_keys();
 

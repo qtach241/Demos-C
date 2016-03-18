@@ -22,6 +22,7 @@ enum
     SIMPLECOPY,
     COPYFILE,
     MONITORFORK,
+    PARENTPIPE,
     LISTKEYS,
     NUMKEYS
 };
