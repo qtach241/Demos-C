@@ -16,5 +16,6 @@ extern int copyfile(int fromfd, int tofd);
 extern int do_simplecopy(void);
 extern int readwrite(int fromfd, int tofd);
 extern int do_copyfile(int argc, char **argv);
+extern int do_monitorfork(int argc, char **argv);
 
 #endif

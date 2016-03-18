@@ -1,4 +1,5 @@
 #include <errno.h>
+#include <fcntl.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -8,7 +9,9 @@
 #include "restart.h"
 #include "helper.h"
 
-/* The readline function returns the next line from a file. */
+/*
+The readline function returns the next line from a file.
+*/
 int readline(int fd, char *buf, int nbytes)
 {
     int numread = 0;
@@ -128,6 +131,9 @@ int readwrite(int fromfd, int tofd)
     return bytesread;
 }
 
+/*
+The readwriteblock function copies a fixed number of bytes from one file descriptor to another.
+*/
 int readwriteblock(int fromfd, int tofd, char *buf, int size)
 {
     int bytesread;
@@ -139,6 +145,10 @@ int readwriteblock(int fromfd, int tofd, char *buf, int size)
     return r_write(tofd, buf, size);
 }
 
+/*
+Open a file, copy contents to a destination file. Creates a destination file if one doesn't exist with
+the name passed in.
+*/
 int do_copyfile(int argc, char *argv[])
 {
     int bytes;
@@ -166,4 +176,46 @@ int do_copyfile(int argc, char *argv[])
     printf("%d bytes copied from %s to %s\r\n", bytes, argv[2], argv[3]);
 
     return 0; /* The return closes the file. */
+}
+
+/*
+Monitors two files by forking a child process.
+*/
+int do_monitorfork(int argv, char *argv[])
+{
+    int bytesread;
+    int childpid;
+    int fd, fd1, fd2;
+
+    if (argc != 4)
+    {
+        fprintf(stderr, "Usage: %s %s <file1> <file2>\r\n", argv[0], argv[1]);
+        return 1;
+    }
+
+    if ((fd1 = open(argv[2], O_RDONLY)) == -1)
+    {
+        fprintf(stderr, "Failed to open file %s:%s\r\n", argv[2], strerror(errno));
+        return 1;
+    }
+    if ((fd2 = open(argv[3], O_RDONLY)) == -1)
+    {
+        fprintf(stderr, "Failed to open file %s:%s\r\n", argv[2], strerror(errno));
+        return 1;
+    }
+
+    if ((childpid = fork()) == -1)
+    {
+        perror("Failed to create child process");
+        return 1;
+    }
+
+    if (childpid > 0)
+        fd = fd1;
+    else
+        fd = fd2;
+
+    bytesread = copyfile(fd, STDOUT_FILENO);
+    fprintf(stderr, "Bytes read: %d\r\n", bytesread);
+    return 0;
 }

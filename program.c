@@ -4,7 +4,7 @@
 #include "example3.h"
 #include "example4.h"
 
-static key_t key_lut[] = 
+static keycode_t key_lut[] = 
 {
     { OUTPUTPID,     "outputPID",     "Output Process ID and Parent Process ID" },
     { OUTPUTIDS,     "outputIDs",     "Output User ID and Group ID" },
@@ -23,6 +23,7 @@ static key_t key_lut[] =
     { RUNBACK,       "runback",       "Create a child process to run a background command" },
     { SIMPLECOPY,    "simplecopy",    "Copy a file from standard input to standard output" },
     { COPYFILE,      "copyfile",      "Generic version of simplecopy" },
+    { MONITORFORK,   "monitorfork",   "Copy two files to STDOUT using fork" },
     { LISTKEYS,      "list",          "List all valid keys" }
 };
 
@@ -47,6 +48,7 @@ int execute_program(int argc, char **argv)
     case RUNBACK:          return do_runback(argc, argv);
     case SIMPLECOPY:       return do_simplecopy();
     case COPYFILE:         return do_copyfile(argc, argv);
+    case MONITORFORK:      return do_monitorfork(argc, argv);
 
     case LISTKEYS:         return list_keys();
 

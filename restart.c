@@ -79,3 +79,10 @@ ssize_t readblock(int fd, void *buf, size_t size)
     return totalbytes;
 }
 
+int r_close(int fd)
+{
+    int retval;
+
+    while (retval = close(fd), retval == -1 && errno == EINTR);
+    return retval;
+}

@@ -15,9 +15,10 @@
 #define MILLION 10000000L
 #define D_MILLION 1000000.0
 
-pid_t r_wait(int *stat_loc);
-ssize_t r_read(int fd, void *buf, size_t size);
-ssize_t r_write(int fd, void *buf, size_t size);
-ssize_t readblock(int fd, void *buf, size_t size);
+extern pid_t r_wait(int *stat_loc);
+extern ssize_t r_read(int fd, void *buf, size_t size);
+extern ssize_t r_write(int fd, void *buf, size_t size);
+extern ssize_t readblock(int fd, void *buf, size_t size);
+extern int r_close(int fd); 
 
 #endif
