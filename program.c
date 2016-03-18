@@ -3,6 +3,7 @@
 #include "program.h"
 #include "example3.h"
 #include "example4.h"
+#include "example6.h"
 
 static keycode_t key_lut[] = 
 {
