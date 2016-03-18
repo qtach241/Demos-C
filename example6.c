@@ -84,7 +84,7 @@ int do_synchronizefan(int argc, char *argv[])
     /* Parent writes to pipe after all chidren created. */
     if (childpid > 0)
     {
-        sleep(10);
+        sleep(5); /* wait 5 seconds */
         for (i = 0; i < n; i++)
             if (r_write(fd[1], buf, 1) != 1)
                 perror("Failed to write the synchronization characters");
