@@ -40,7 +40,7 @@ int copyfile(int fromfd, int tofd)
 
     while(1)
     {
-        while ((bytesread = read(fromfd, buf, BLKSIZE)) == -1) && (errno == EINTR));
+        while (((bytesread = read(fromfd, buf, BLKSIZE)) == -1) && (errno == EINTR));
 
         if (bytesread <= 0)
             break;
