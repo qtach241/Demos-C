@@ -7,5 +7,7 @@ extern int do_simpleredirect(void);
 extern int do_parentchildfifo(int argc, char **argv);
 extern int dofifochild(const char *fifoname, const char *idstring);
 extern int dofifoparent(const char *fifoname);
+extern int do_pipeserver(int argc, char **argv);
+extern int do_pipeclient(int argc, char **argv);
 
 #endif

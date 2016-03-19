@@ -14,6 +14,8 @@
 #define BUFSIZE 10
 #define FIFOSIZE 256
 #define FIFO_PERM (S_IRUSR | S_IWUSR)
+#define FIFOARG 1
+#define FIFO_PERMS (S_IRWXU | S_IWGRP | S_IWOTH)
 
 /*
 A program in which a parent writes a string to a pipe and the child reads the string. The
@@ -245,3 +247,30 @@ int dofifoparent(const char *fifoname)
     return 0;
 }
 
+/*
+The program reads what is written to a named pipe and writes it to standard output.
+*/
+int do_pipeserver(int argc, char *argv[])
+{
+    int requestfd;
+
+    if (argc != 3)
+    {
+        fprintf(stderr, "Usage: %s %s <fifo name> [> <log file>]\r\n", argv[0], argv[1]);
+        return 1;
+    }
+
+    if ((mkfifo(argv[2], FIFO_PERMS) && (errno != EEXIST))
+    {
+        perror("Server failed to create FIFO");
+        return 1;
+    }
+
+    if ((requestfd = open(argv[2], O_RDWR)) == -1)
+    {
+        perror("Server failed to open its FIFO");
+        return 1;
+    }
+    copyfile(requestfd, STDOUT_FILENO);
+    return 1;
+}

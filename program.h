@@ -26,6 +26,7 @@ enum
     SYNCFAN,
     SIMPLEREDIR,
     PCFIFO,
+    PIPESERVER,
     LISTKEYS,
     NUMKEYS
 };

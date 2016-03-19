@@ -22,13 +22,14 @@ static keycode_t key_lut[] =
     { EXECCMD,       "execcmd",       "Create a child process to run any command" },
     { EXECCMDARGV,   "execcmdargv",   "Like execcmd but with comma delimited arguments" },
     { RUNBACK,       "runback",       "Create a child process to run a background command" },
-    { SIMPLECOPY,    "simplecopy",    "Copy a file from standard input to standard output" },
+    { SIMPLECOPY,    "simplecopy",    "Copy a file from stdin to stdout" },
     { COPYFILE,      "copyfile",      "Generic version of simplecopy" },
     { MONITORFORK,   "monitorfork",   "Copy two files to STDOUT using fork" },
     { PARENTPIPE,    "parentpipe",    "Parent writes string to pipe, child reads" },
     { SIMPLEREDIR,   "simpleredir",   "Create pipe to run 'ls -l | sort -n'" },
     { SYNCFAN,       "syncfan",       "Create fan of processes and sync echo to stderr" },
     { PCFIFO,        "pcfifo",        "Parent reads what child has written to named pipe" },
+    { PIPESERVER,    "pipeserver",    "Read what is written to FIFO and write to stdout" },
     { LISTKEYS,      "list",          "List all valid keys" }
 };
 
@@ -58,6 +59,7 @@ int execute_program(int argc, char **argv)
     case SYNCFAN:          return do_synchronizefan(argc, argv);
     case SIMPLEREDIR:      return do_simpleredirect();
     case PCFIFO:           return do_parentchildfifo(argc, argv);
+    case PIPESERVER:       return do_pipeserver(argc, argv);
 
     case LISTKEYS:         return list_keys();
 
