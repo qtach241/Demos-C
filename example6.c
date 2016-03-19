@@ -7,6 +7,7 @@
 #include <sys/stat.h>
 #include <sys/wait.h>
 #include <sys/types.h>
+#include "example4.h"
 #include "example6.h"
 #include "restart.h"
 #include "helper.h"
