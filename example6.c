@@ -260,7 +260,7 @@ int do_pipeserver(int argc, char *argv[])
         return 1;
     }
 
-    if ((mkfifo(argv[2], FIFO_PERMS) == -1) && (eerno != EEXIST))
+    if ((mkfifo(argv[2], FIFO_PERMS) == -1) && (errno != EEXIST))
     {
         perror("Server failed to create FIFO");
         return 1;
