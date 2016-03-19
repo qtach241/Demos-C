@@ -169,7 +169,7 @@ int do_parentchildfifo(int argc, char *argv[])
         return 1;
     }
     if (childpid == 0)
-        return dofifochild(argv[2], "This was written by the child");
+        return dofifochild(argv[2], "Zip Zap Zippity Zoo");
     else
         return dofifoparent(argv[2]);
 }
