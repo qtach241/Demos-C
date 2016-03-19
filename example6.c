@@ -11,6 +11,8 @@
 #include "helper.h"
 
 #define BUFSIZE 10
+#define FIFOSIZE 256
+#define FIFO_PERM (S_IRUSR | S_IWUSR)
 
 /*
 A program in which a parent writes a string to a pipe and the child reads the string. The
@@ -100,7 +102,7 @@ int do_synchronizefan(int argc, char *argv[])
 }
 
 /*
-Execute the equivalent of "ls -l | sort -n +4" shell command.
+Execute the equivalent of "ls -l | sort -n" shell command.
 */
 int do_simpleredirect(void)
 {
@@ -137,3 +139,108 @@ int do_simpleredirect(void)
     }
     return 1;
 }
+
+/*
+The parent reads what its child has written to a named pipe.
+*/
+int do_parentchildfifo(int argc, char *argv[])
+{
+    pid_t childpid;
+
+    if (argc != 3)
+    {
+        fprintf(stderr, "Usage: %s %s <pipe name>\r\n", argv[0], argv[1]);
+        return 1;
+    }
+
+    if (mkfifo(argv[2], FIFO_PERM) == -1)
+    {
+        if (errno != EEXIST)
+        {
+            fprintf(stderr, "[%ld]:failed to create named pipe %s: %s\r\n",
+                            (long)getpid(), argv[2], strerror(errno));
+            return 1;
+        }
+    }
+    if ((childpid = fork()) == -1)
+    {
+        perror("Failed to fork");
+        return 1;
+    }
+    if (childpid == 0)
+        return dofifochild(argv[2], "This was written by the child");
+    else
+        return dofifoparent(argv[2]);
+}
+
+/*
+The child writes to the pipe and returns.
+*/
+int dofifochild(const char *fifoname, const char *idstring)
+{
+    char buf[FIFOSIZE];
+    int fd;
+    int rval;
+    ssize_t strsize;
+
+    fprintf(stderr, "[%ld]:(Child) about to open FIFO %s...\r\n",
+                    (long)getpid(), fifoname);
+    while (((fd = open(fifoname, O_WRONLY)) == -1) && (errno == EINTR));
+    if (fd == -1)
+    {
+        fprintf(stderr, "[%ld]:Failed to open named pipe %s for write: %s\r\n",
+                        (long)getpid(), fifoname, strerror(errno));
+        return 1;
+    }
+    rval = snprintf(buf, FIFOSIZE, "[%ld]:%s\r\n", (long)getpid(), idstring);
+    if (rval < 0)
+    {
+        fprintf(stderr, "[%ld]:Failed to make the string:\r\n", (long)getpid());
+        return 1;
+    }
+
+    strsize = strlen(buf) + 1;
+    fprintf(stderr, "[%ld]:About to write...\r\n", (long)getpid());
+    rval = r_write(fd, buf, strsize);
+    if (rval != strsize)
+    {
+        fprintf(stderr, "[%ld]:Failed to write to pipe: %s\r\n",
+                        (long)getpid(), strerror(errno));
+        return 1;
+    }
+    fprintf(stderr, "[%ld]:Finishing...\r\n", (long)getpid());
+    return 0;
+}
+
+/*
+The parent reads what was written to the named pipe.
+*/
+int dofifoparent(const char *fifoname)
+{
+    char buf[FIFOSIZE];
+    int fd;
+    int rval;
+
+    fprintf(stderr, "[%ld]:(Parent) about to open FIFO %s...\n",
+                    (long)getpid(), fifoname);
+    while (((fd = open(fifoname, O_RDONLY)) == -1) && (errno == EINTR)) ;
+    if (fd == -1) 
+    {
+        fprintf(stderr, "[%ld]:Failed to open named pipe %s for read: %s\n",
+                        (long)getpid(), fifoname, strerror(errno));
+        return 1;
+    }
+
+    fprintf(stderr, "[%ld]:About to read...\n", (long)getpid());
+
+    rval = r_read(fd, buf, FIFOSIZE);
+    if (rval == -1) 
+    {
+        fprintf(stderr, "[%ld]:Failed to read from pipe: %s\n",
+                        (long)getpid(), strerror(errno));
+        return 1;
+    }
+    fprintf(stderr, "[%ld]:Read %.*s\n", (long)getpid(), rval, buf);
+    return 0;
+}
+

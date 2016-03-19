@@ -28,6 +28,7 @@ static keycode_t key_lut[] =
     { PARENTPIPE,    "parentpipe",    "Parent writes string to pipe, child reads" },
     { SIMPLEREDIR,   "simpleredir",   "Create pipe to run 'ls -l | sort -n'" },
     { SYNCFAN,       "syncfan",       "Create fan of processes and sync echo to stderr" },
+    { PCFIFO,        "pcfifo",        "Parent reads what child has written to named pipe" },
     { LISTKEYS,      "list",          "List all valid keys" }
 };
 
@@ -56,6 +57,7 @@ int execute_program(int argc, char **argv)
     case PARENTPIPE:       return do_parentwritepipe();
     case SYNCFAN:          return do_synchronizefan(argc, argv);
     case SIMPLEREDIR:      return do_simpleredirect();
+    case PCFIFO:           return do_parentchildfifo(argc, argv);
 
     case LISTKEYS:         return list_keys();
 

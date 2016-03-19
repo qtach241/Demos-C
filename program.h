@@ -25,6 +25,7 @@ enum
     PARENTPIPE,
     SYNCFAN,
     SIMPLEREDIR,
+    PCFIFO,
     LISTKEYS,
     NUMKEYS
 };
