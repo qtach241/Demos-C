@@ -222,26 +222,26 @@ int dofifoparent(const char *fifoname)
     int fd;
     int rval;
 
-    fprintf(stderr, "[%ld]:(Parent) about to open FIFO %s...\n",
+    fprintf(stderr, "[%ld]:(Parent) about to open FIFO %s...\r\n",
                     (long)getpid(), fifoname);
     while (((fd = open(fifoname, O_RDONLY)) == -1) && (errno == EINTR)) ;
     if (fd == -1) 
     {
-        fprintf(stderr, "[%ld]:Failed to open named pipe %s for read: %s\n",
+        fprintf(stderr, "[%ld]:Failed to open named pipe %s for read: %s\r\n",
                         (long)getpid(), fifoname, strerror(errno));
         return 1;
     }
 
-    fprintf(stderr, "[%ld]:About to read...\n", (long)getpid());
+    fprintf(stderr, "[%ld]:About to read...\r\n", (long)getpid());
 
     rval = r_read(fd, buf, FIFOSIZE);
     if (rval == -1) 
     {
-        fprintf(stderr, "[%ld]:Failed to read from pipe: %s\n",
+        fprintf(stderr, "[%ld]:Failed to read from pipe: %s\r\n",
                         (long)getpid(), strerror(errno));
         return 1;
     }
-    fprintf(stderr, "[%ld]:Read %.*s\n", (long)getpid(), rval, buf);
+    fprintf(stderr, "[%ld]:Read %.*s\r\n", (long)getpid(), rval, buf);
     return 0;
 }
 
