@@ -4,6 +4,7 @@
 #include "example3.h"
 #include "example4.h"
 #include "example6.h"
+#include "token_ring.h"
 
 static keycode_t key_lut[] = 
 {
