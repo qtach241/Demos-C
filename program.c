@@ -31,6 +31,7 @@ static keycode_t key_lut[] =
     { PCFIFO,        "pcfifo",        "Parent reads what child has written to named pipe" },
     { PIPESERVER,    "pipeserver",    "Read what is written to FIFO and write to stdout" },
     { PIPECLIENT,    "pipeclient",    "Write an informative message to FIFO" },
+    { RING,          "ring",          "Create a token ring of n processes" },
     { LISTKEYS,      "list",          "List all valid keys" }
 };
 
@@ -62,6 +63,7 @@ int execute_program(int argc, char **argv)
     case PCFIFO:           return do_parentchildfifo(argc, argv);
     case PIPESERVER:       return do_pipeserver(argc, argv);
     case PIPECLIENT:       return do_pipeclient(argc, argv);
+    case RING:             return ring(argc, argv);
 
     case LISTKEYS:         return list_keys();
 

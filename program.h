@@ -28,6 +28,7 @@ enum
     PCFIFO,
     PIPESERVER,
     PIPECLIENT,
+    RING,
     LISTKEYS,
     NUMKEYS
 };
