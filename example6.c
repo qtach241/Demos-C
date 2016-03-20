@@ -3,10 +3,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <limits.h>
 #include <unistd.h>
 #include <sys/stat.h>
 #include <sys/wait.h>
 #include <sys/types.h>
+#include <time.h>
 #include "example4.h"
 #include "example6.h"
 #include "restart.h"
@@ -15,7 +17,6 @@
 #define BUFSIZE 10
 #define FIFOSIZE 256
 #define FIFO_PERM (S_IRUSR | S_IWUSR)
-#define FIFOARG 1
 #define FIFO_PERMS (S_IRWXU | S_IWGRP | S_IWOTH)
 
 /*
@@ -274,4 +275,40 @@ int do_pipeserver(int argc, char *argv[])
     }
     copyfile(requestfd, STDOUT_FILENO);
     return 1;
+}
+
+/*
+The client writes an informative message to a named pipe.
+*/
+int do_pipeclient(int argc, char *argv[])
+{
+    time_t curtime;
+    int len;
+    char requestbuf[BLKSIZE];
+    int requestfd;
+
+    if (argc != 3_
+    {
+        fprintf(stderr, "Usage: %s %s <fifo name>\r\n", argv[0], argv[1]);
+        return 1;
+    }
+
+    if ((requestfd = open(argv[2], O_WRONLY)) == -1)
+    {
+        perror("Client failed to open log FIFO for writing");
+        return 1;
+    }
+
+    curtime = time(NULL);
+    snprintf(requestbuf, PIPE_BUF, "%d: %s", (int)getpid(), ctime(&curtime));
+    len = strlen(requestbuf);
+
+    if (r_write(requestfd, requestbuf, len) != len)
+    {
+        perror("Client failed to write");
+        return 1;
+    }
+    r_close(requestfd);
+
+    return 0;
 }

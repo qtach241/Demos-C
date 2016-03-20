@@ -30,6 +30,7 @@ static keycode_t key_lut[] =
     { SYNCFAN,       "syncfan",       "Create fan of processes and sync echo to stderr" },
     { PCFIFO,        "pcfifo",        "Parent reads what child has written to named pipe" },
     { PIPESERVER,    "pipeserver",    "Read what is written to FIFO and write to stdout" },
+    { PIPECLIENT,    "pipeclient",    "Write an informative message to FIFO" },
     { LISTKEYS,      "list",          "List all valid keys" }
 };
 
@@ -60,6 +61,7 @@ int execute_program(int argc, char **argv)
     case SIMPLEREDIR:      return do_simpleredirect();
     case PCFIFO:           return do_parentchildfifo(argc, argv);
     case PIPESERVER:       return do_pipeserver(argc, argv);
+    case PIPECLIENT:       return do_pipeclient(argc, argv);
 
     case LISTKEYS:         return list_keys();
 

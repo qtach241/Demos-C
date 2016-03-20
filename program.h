@@ -27,6 +27,7 @@ enum
     SIMPLEREDIR,
     PCFIFO,
     PIPESERVER,
+    PIPECLIENT,
     LISTKEYS,
     NUMKEYS
 };
