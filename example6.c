@@ -287,7 +287,7 @@ int do_pipeclient(int argc, char *argv[])
     char requestbuf[BLKSIZE];
     int requestfd;
 
-    if (argc != 3_
+    if (argc != 3)
     {
         fprintf(stderr, "Usage: %s %s <fifo name>\r\n", argv[0], argv[1]);
         return 1;
@@ -300,7 +300,7 @@ int do_pipeclient(int argc, char *argv[])
     }
 
     curtime = time(NULL);
-    snprintf(requestbuf, PIPE_BUF, "%d: %s", (int)getpid(), ctime(&curtime));
+    snprintf(requestbuf, BLKSIZE, "%d: %s", (int)getpid(), ctime(&curtime));
     len = strlen(requestbuf);
 
     if (r_write(requestfd, requestbuf, len) != len)
