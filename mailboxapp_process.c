@@ -198,7 +198,7 @@ int mailboxapp_send_message(char *receiver, char* content) {
         return -1;
     }
     // get the receiver's information
-    if (get_process_info(receiver, &message_stats.receiver_info) < 0) {
+    if (mailboxapp_get_process_info(receiver, &message_stats.receiver_info) < 0) {
         printf("Failed getting %s's information.\n", receiver);
         return -1;
     }
@@ -209,7 +209,7 @@ int mailboxapp_send_message(char *receiver, char* content) {
         return -1;
     }
     // get the number of packets
-    int num_packets = get_num_packets(content, PACKET_SIZE);
+    int num_packets = mailboxapp_get_num_packets(content, PACKET_SIZE);
     if (num_packets < 0) {
         printf("Failed getting the number of packets.\n");
         return -1;
@@ -229,7 +229,7 @@ int mailboxapp_send_message(char *receiver, char* content) {
         return -1;
     }
     // parition the message into packets
-    if (create_packets(content, &message_stats) < 0) {
+    if (mailboxapp_create_packets(content, &message_stats) < 0) {
         printf("Failed paritioning data into packets.\n");
         message_stats.is_sending = 0;
         free(message_stats.packet_status);
