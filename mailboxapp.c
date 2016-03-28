@@ -2,7 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 
-#include "mailboxapp_application.h"
+#include "mailboxapp.h"
 #include "mailboxapp_process.h"
 
 int do_mailboxapp(int argc, char* argv[])

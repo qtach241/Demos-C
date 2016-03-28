@@ -5,8 +5,7 @@
 #include "example4.h"
 #include "example6.h"
 #include "token_ring.h"
-
-#include "mailboxapp_application.h"
+#include "mailboxapp.h"
 
 static keycode_t key_lut[] = 
 {
