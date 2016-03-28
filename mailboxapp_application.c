@@ -31,19 +31,19 @@ int do_mailboxapp(int argc, char* argv[])
 
         if (strcmp(role, "sender") == 0)
         {
-            // get the receiver name and the data
+            // Get the receiver name and the data.
             printf("\nReceiver name: ");
             scanf("%s", receiver);
             printf("Data: ");
             scanf("%s", data);
-            if (send_message(receiver, data) < 0)
+            if (mailboxapp_send_message(receiver, data) < 0)
             {
                 printf("Failed sending data to %s\n", receiver);
             }
         }
         else if (strcmp(role, "receiver") == 0)
         {
-            if (receive_message(data) >= 0)
+            if (mailboxapp_receive_message(data) >= 0)
             {
                 printf("Message: %s\n", data);
             }
