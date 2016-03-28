@@ -12,14 +12,16 @@
 #define MAX_TIMEOUT 5
 
 /* This structure stores the information of a process */
-typedef struct {
+typedef struct
+{
     int pid;
     char process_name[MAX_NAME_LEN];
     key_t key;
 } process_t;
 
 /* This is the structure of the packet. You are free to add any other fields as needed */
-typedef struct {
+typedef struct
+{
     long mtype;       // packet type: DATA or ACK
     int message_id;   // message id
     int pid;          // sender's pid
@@ -31,14 +33,16 @@ typedef struct {
 } packet_t;
 
 /* This structure is used to monitor the status of each packet */
-typedef struct {
+typedef struct
+{
     packet_t packet;
     int is_sent;
     int ACK_received;
 } packet_status_t;
 
 /* This structure is used by the sender to monitor the status of the message */
-typedef struct {
+typedef struct
+{
     process_t receiver_info;
     int mailbox_id;
     int num_packets_received;
@@ -48,7 +52,8 @@ typedef struct {
 } message_status_t;
 
 /* This structure is used by the receiver to store a message */
-typedef struct {
+typedef struct
+{
     process_t sender;
     int num_packets_received;
     int is_complete;

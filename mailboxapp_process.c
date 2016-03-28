@@ -7,25 +7,41 @@
 
 #include "mailboxapp_process.h"
 
-// messaging config
+/* Messaging config. */
 int WINDOW_SIZE;
 int MAX_DELAY;
 int TIMEOUT;
 int DROP_RATE;
 
-// process information
+/* Process information. */
 process_t myinfo;
 int mailbox_id;
-// a message id is used by the receiver to distinguish a message from other messages
-// you can simply increment the message id once the message is completed
+
+/*
+A message id is used by the receiver to distinguish a message from other messages
+you can simply increment the message id once the message is completed.
+*/
 int message_id = 0;
-// the message status is used by the sender to monitor the status of a message
+
+/* 
+The message status is used by the sender to monitor the status of a message.
+*/
 message_status_t message_stats;
-// the message is used by the receiver to store the actual content of a message
+
+/*
+The message is used by the receiver to store the actual content of a message.
+*/
 message_t *message;
 
-int num_available_packets; // number of packets that can be sent (0 <= n <= WINDOW_SIZE)
-int is_receiving = 0; // a helper varibale may be used to handle multiple senders
+/*
+Number of packets that can be sent (0 <= n <= WINDOW_SIZE).
+*/
+int num_available_packets;
+
+/*
+A helper variable may be used to handle multiple senders.
+*/
+int is_receiving = 0;
 
 /**
  * TODO complete the definition of the function
@@ -34,19 +50,23 @@ int is_receiving = 0; // a helper varibale may be used to handle multiple sender
  * 3. Setup the signal handlers (SIGIO for handling packet, SIGALRM for timeout).
  * Return 0 if success, -1 otherwise.
  */
-int mailboxapp_init(char *process_name, key_t key, int wsize, int delay, int to, int drop) {
+int mailboxapp_init(char *process_name, key_t key, int wsize, int delay, int to, int drop)
+{
     myinfo.pid = getpid();
     strcpy(myinfo.process_name, process_name);
     myinfo.key = key;
 
-    // open the file
+    /* Open the file. */
     FILE* fp = fopen(myinfo.process_name, "wb");
-    if (fp == NULL) {
+    if (fp == NULL)
+    {
         printf("Failed opening file: %s\n", myinfo.process_name);
         return -1;
     }
-    // write the process_name and its message keys to the file
-    if (fprintf(fp, "pid:%d\nprocess_name:%s\nkey:%d\n", myinfo.pid, myinfo.process_name, myinfo.key) < 0) {
+
+    /* Write the process_name and its message keys to the file. */
+    if (fprintf(fp, "pid:%d\nprocess_name:%s\nkey:%d\n", myinfo.pid, myinfo.process_name, myinfo.key) < 0)
+    {
         printf("Failed writing to the file\n");
         return -1;
     }
@@ -71,25 +91,34 @@ int mailboxapp_init(char *process_name, key_t key, int wsize, int delay, int to,
  * Get a process' information and save it to the process_t struct.
  * Return 0 if success, -1 otherwise.
  */
-int mailboxapp_get_process_info(char *process_name, process_t *info) {
+int mailboxapp_get_process_info(char *process_name, process_t *info)
+{
     char buffer[MAX_SIZE];
     char *token;
 
-    // open the file for reading
+    /* Open the file for reading. */
     FILE* fp = fopen(process_name, "r");
-    if (fp == NULL) {
+    if (fp == NULL)
+    {
         return -1;
     }
-    // parse the information and save it to a process_info struct
-    while (fgets(buffer, MAX_SIZE, fp) != NULL) {
+
+    /* Parse the information and save it to a process_info struct. */
+    while (fgets(buffer, MAX_SIZE, fp) != NULL)
+    {
         token = strtok(buffer, ":");
-        if (strcmp(token, "pid") == 0) {
+        if (strcmp(token, "pid") == 0)
+        {
             token = strtok(NULL, ":");
             info->pid = atoi(token);
-        } else if (strcmp(token, "process_name") == 0) {
+        }
+        else if (strcmp(token, "process_name") == 0)
+        {
             token = strtok(NULL, ":");
             strcpy(info->process_name, token);
-        } else if (strcmp(token, "key") == 0) {
+        }
+        else if (strcmp(token, "key") == 0)
+        {
             token = strtok(NULL, ":");
             info->key = atoi(token);
         }
@@ -102,7 +131,8 @@ int mailboxapp_get_process_info(char *process_name, process_t *info) {
  * TODO Send a packet to a mailbox identified by the mailbox_id, and send a SIGIO to the pid.
  * Return 0 if success, -1 otherwise.
  */
-int mailboxapp_send_packet(packet_t *packet, int mailbox_id, int pid) {
+int mailboxapp_send_packet(packet_t *packet, int mailbox_id, int pid)
+{
     return -1;
 }
 
@@ -110,13 +140,18 @@ int mailboxapp_send_packet(packet_t *packet, int mailbox_id, int pid) {
  * Get the number of packets needed to send a data, given a packet size.
  * Return the number of packets if success, -1 otherwise.
  */
-int mailboxapp_get_num_packets(char *data, int packet_size) {
+int mailboxapp_get_num_packets(char *data, int packet_size)
+{
     if (data == NULL) {
         return -1;
     }
-    if (strlen(data) % packet_size == 0) {
+
+    if (strlen(data) % packet_size == 0)
+    {
         return strlen(data) / packet_size;
-    } else {
+    }
+    else
+    {
         return (strlen(data) / packet_size) + 1;
     }
 }
@@ -125,15 +160,23 @@ int mailboxapp_get_num_packets(char *data, int packet_size) {
  * Create packets for the corresponding data and save it to the message_stats.
  * Return 0 if success, -1 otherwise.
  */
-int mailboxapp_create_packets(char *data, message_status_t *message_stats) {
-    if (data == NULL || message_stats == NULL) {
+int mailboxapp_create_packets(char *data, message_status_t *message_stats)
+{
+    if (data == NULL || message_stats == NULL)
+    {
         return -1;
     }
+
     int i, len;
-    for (i = 0; i < message_stats->num_packets; i++) {
-        if (i == message_stats->num_packets - 1) {
+
+    for (i = 0; i < message_stats->num_packets; i++)
+    {
+        if (i == message_stats->num_packets - 1)
+        {
             len = strlen(data)-(i*PACKET_SIZE);
-        } else {
+        }
+        else
+        {
             len = PACKET_SIZE;
         }
         message_stats->packet_status[i].is_sent = 0;
@@ -155,23 +198,30 @@ int mailboxapp_create_packets(char *data, message_status_t *message_stats) {
  * Get the index of the next packet to be sent.
  * Return the index of the packet if success, -1 otherwise.
  */
-int mailboxapp_get_next_packet(int num_packets) {
+int mailboxapp_get_next_packet(int num_packets)
+{
     int packet_idx = rand() % num_packets;
     int i = 0;
 
     i = 0;
-    while (i < num_packets) {
-        if (message_stats.packet_status[packet_idx].is_sent == 0) {
-            // found a packet that has not been sent
+    while (i < num_packets)
+    {
+        if (message_stats.packet_status[packet_idx].is_sent == 0)
+        {
+            /* Found a packet that has not been sent. */
             return packet_idx;
-        } else if (packet_idx == num_packets-1) {
+        }
+        else if (packet_idx == num_packets-1)
+        {
             packet_idx = 0;
-        } else {
+        }
+        else
+        {
             packet_idx++;
         }
         i++;
     }
-    // all packets have been sent
+    /* All packets have been sent. */
     return -1;
 }
 
@@ -179,8 +229,10 @@ int mailboxapp_get_next_packet(int num_packets) {
  * Use probability to simulate packet loss.
  * Return 1 if the packet should be dropped, 0 otherwise.
  */
-int mailboxapp_drop_packet() {
-    if (rand() % 100 > DROP_RATE) {
+int mailboxapp_drop_packet()
+{
+    if (rand() % 100 > DROP_RATE)
+    {
         return 0;
     }
     return 1;
@@ -192,44 +244,62 @@ int mailboxapp_drop_packet() {
  * each of the packet.
  * Return 0 if success, -1 otherwise.
  */
-int mailboxapp_send_message(char *receiver, char* content) {
-    if (receiver == NULL || content == NULL) {
+int mailboxapp_send_message(char *receiver, char* content)
+{
+    /* Validate parameters. */
+    if (receiver == NULL || content == NULL)
+    {
         printf("Receiver or content is NULL\n");
         return -1;
     }
-    // get the receiver's information
-    if (mailboxapp_get_process_info(receiver, &message_stats.receiver_info) < 0) {
+
+    /* Get the receiver's information. */
+    if (mailboxapp_get_process_info(receiver, &message_stats.receiver_info) < 0)
+    {
         printf("Failed getting %s's information.\n", receiver);
         return -1;
     }
-    // get the receiver's mailbox id
+
+    /* Get the receiver's mailbox ID. */
     message_stats.mailbox_id = msgget(message_stats.receiver_info.key, 0666);
-    if (message_stats.mailbox_id == -1) {
+    if (message_stats.mailbox_id == -1)
+    {
         printf("Failed getting the receiver's mailbox.\n");
         return -1;
     }
-    // get the number of packets
+
+    /* Get the number of packets. */
     int num_packets = mailboxapp_get_num_packets(content, PACKET_SIZE);
-    if (num_packets < 0) {
+    if (num_packets < 0)
+    {
         printf("Failed getting the number of packets.\n");
         return -1;
     }
-    // set the number of available packets
-    if (num_packets > WINDOW_SIZE) {
+
+    /* Set the number of available packets. */
+    if (num_packets > WINDOW_SIZE)
+    {
         num_available_packets = WINDOW_SIZE;
-    } else {
+    }
+    else
+    {
         num_available_packets = num_packets;
     }
-    // setup the information of the message
+
+    /* Setup the information of the message. */
     message_stats.is_sending = 1;
     message_stats.num_packets_received = 0;
     message_stats.num_packets = num_packets;
     message_stats.packet_status = malloc(num_packets * sizeof(packet_status_t));
-    if (message_stats.packet_status == NULL) {
+
+    if (message_stats.packet_status == NULL)
+    {
         return -1;
     }
-    // parition the message into packets
-    if (mailboxapp_create_packets(content, &message_stats) < 0) {
+
+    /* Partition the message into packets. */
+    if (mailboxapp_create_packets(content, &message_stats) < 0)
+    {
         printf("Failed paritioning data into packets.\n");
         message_stats.is_sending = 0;
         free(message_stats.packet_status);
@@ -249,7 +319,8 @@ int mailboxapp_send_message(char *receiver, char* content) {
  * TODO Handle TIMEOUT. Resend previously sent packets whose ACKs have not been
  * received yet. Reset the TIMEOUT.
  */
-void mailboxapp_timeout_handler(int sig) {
+void mailboxapp_timeout_handler(int sig)
+{
 
 }
 
@@ -258,7 +329,8 @@ void mailboxapp_timeout_handler(int sig) {
  * The message id is determined by the receiver and has to be included in the ACK packet.
  * Return 0 if success, -1 otherwise.
  */
-int mailboxapp_send_ACK(int mailbox_id, pid_t pid, int packet_num) {
+int mailboxapp_send_ACK(int mailbox_id, pid_t pid, int packet_num)
+{
     // TODO construct an ACK packet
 
     int delay = rand() % MAX_DELAY;
@@ -274,7 +346,8 @@ int mailboxapp_send_ACK(int mailbox_id, pid_t pid, int packet_num) {
  * You should handle unexpected cases such as duplicate packet, packet for a different message,
  * packet from a different sender, etc.
  */
-void mailboxapp_handle_data(packet_t *packet, process_t *sender, int sender_mailbox_id) {
+void mailboxapp_handle_data(packet_t *packet, process_t *sender, int sender_mailbox_id)
+{
 
 }
 
@@ -283,7 +356,8 @@ void mailboxapp_handle_data(packet_t *packet, process_t *sender, int sender_mail
  * has been successfully received and reset the TIMEOUT.
  * You should handle unexpected cases such as duplicate ACKs, ACK for completed message, etc.
  */
-void mailboxapp_handle_ACK(packet_t *packet) {
+void mailboxapp_handle_ACK(packet_t *packet)
+{
 
 }
 
@@ -291,7 +365,8 @@ void mailboxapp_handle_ACK(packet_t *packet) {
  * Get the next packet (if any) from a mailbox.
  * Return 0 (false) if there is no packet in the mailbox
  */
-int mailboxapp_get_packet_from_mailbox(int mailbox_id) {
+int mailboxapp_get_packet_from_mailbox(int mailbox_id)
+{
     struct msqid_ds buf;
 
     return (msgctl(mailbox_id, IPC_STAT, &buf) == 0) && (buf.msg_qnum > 0);
@@ -302,7 +377,8 @@ int mailboxapp_get_packet_from_mailbox(int mailbox_id) {
  * If the packet is DATA, send an ACK packet and SIGIO to the sender.
  * If the packet is ACK, update the status of the packet.
  */
-void mailboxapp_receive_packet(int sig) {
+void mailboxapp_receive_packet(int sig)
+{
 
     // TODO you have to call drop_packet function to drop a packet with some probability
     // if (drop_packet()) {
@@ -314,6 +390,7 @@ void mailboxapp_receive_packet(int sig) {
  * TODO Initialize the message structure and wait for a message from another process.
  * Save the message content to the data and return 0 if success, -1 otherwise
  */
-int mailboxapp_receive_message(char *data) {
+int mailboxapp_receive_message(char *data)
+{
     return -1;
 }
