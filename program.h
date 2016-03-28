@@ -29,6 +29,7 @@ enum
     PIPESERVER,
     PIPECLIENT,
     RING,
+    MAILBOXAPP,
     LISTKEYS,
     NUMKEYS
 };

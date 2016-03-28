@@ -33,6 +33,8 @@ static keycode_t key_lut[] =
     { PIPESERVER,    "pipeserver",    "Read what is written to FIFO and write to stdout" },
     { PIPECLIENT,    "pipeclient",    "Write an informative message to FIFO" },
     { RING,          "ring",          "Create a token ring of n processes" },
+
+    { MAILBOXAPP,    "mailboxapp"     "Some lab assignment I found online" },
     { LISTKEYS,      "list",          "List all valid keys" }
 };
 
@@ -66,6 +68,7 @@ int execute_program(int argc, char **argv)
     case PIPECLIENT:       return do_pipeclient(argc, argv);
     case RING:             return ring(argc, argv);
 
+    case MAILBOXAPP:       return do_mailboxapp(argc, argv);
     case LISTKEYS:         return list_keys();
 
     case BADKEY:
