@@ -6,6 +6,8 @@
 #include "example6.h"
 #include "token_ring.h"
 
+#include "mailboxapp_application.h"
+
 static keycode_t key_lut[] = 
 {
     { OUTPUTPID,     "outputPID",     "Output Process ID and Parent Process ID" },

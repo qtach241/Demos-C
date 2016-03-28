@@ -1,3 +1,6 @@
+#ifndef MAILBOXAPP_PROCESS_H
+#define MAILBOXAPP_PROCESS_H
+
 #include <sys/msg.h>
 #include <sys/types.h>
 
@@ -67,3 +70,5 @@ extern void mailboxapp_receive_packet(int sig);
 extern void mailboxapp_timeout_handler(int sig);
 extern void mailboxapp_handle_data(packet_t *packet, process_t *sender, int sender_mailbox_id);
 extern void mailboxapp_handle_ACK(packet_t *packet);
+
+#endif
