@@ -36,7 +36,7 @@ static keycode_t key_lut[] =
     { PIPECLIENT,    "pipeclient",    "Write an informative message to FIFO" },
     { RING,          "ring",          "Create a token ring of n processes" },
 
-    { MAILBOXAPP,    "mailboxapp"     "Some lab assignment I found online" },
+    { MAILBOXAPP,    "mailboxapp",    "Some lab assignment I found online" },
     { LISTKEYS,      "list",          "List all valid keys" }
 };
 
