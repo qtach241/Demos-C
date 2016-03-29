@@ -5,7 +5,7 @@
 #include "mailboxapp.h"
 #include "mailboxapp_process.h"
 
-int do_mailboxapp(int argc, char* argv[])
+int do_mailboxapp(int argc, char *argv[])
 {
     if (argc < 8)
     {
